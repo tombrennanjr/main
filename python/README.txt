@@ -1,0 +1,3 @@
+intial commit
+currently just micropython on esp32WROOM
+raz pies on the way...
