@@ -1,13 +1,10 @@
- // AFMotor R4 Compatible Library - Basic Motor Test
-// Hardware Setup: DC Motor connected to M1
-
-
+ // AFMotor R4 with 4 1.2 amp motors
 #include "AFMotor_R4.h"
 
 AF_DCMotor motor1(1);  // Create motor on M1
-AF_DCMotor motor2(2);  // Create motor on M1
-AF_DCMotor motor3(3);  // Create motor on M1
-AF_DCMotor motor4(4);  // Create motor on M1
+AF_DCMotor motor2(2);  // Create motor on M2
+AF_DCMotor motor3(3);  // Create motor on M3
+AF_DCMotor motor4(4);  // Create motor on M4
 
 const byte IRpin=2;
 volatile bool obstacleDetected = false;
@@ -19,7 +16,7 @@ void setup() {
           
   Serial.println("Basic Motor Test!");
 
-  // Set initial speed and release motor
+  // Set initial speed and release motors
   motor1.setSpeed(200);
   motor1.run(RELEASE);
   motor2.setSpeed(200);
@@ -37,7 +34,6 @@ void setup() {
   // obstacle sensors when an object is present).
   attachInterrupt(digitalPinToInterrupt(IRpin), obstacleStop, FALLING);
 
-// attachInterrupt(2, obstacleStop, HIGH);
 
 }
 
@@ -45,14 +41,12 @@ void loop() {
   uint8_t i;
 
 if(obstacleDetected){
-
   Serial.println("Stop Stop Stop");
   obstacleDetected=false;
-  delay(50000);
+  delay(15000);
 }
   
   Serial.println("Running forward...");
-  
   motor1.run(FORWARD);
   motor2.run(FORWARD);
   motor3.run(FORWARD);
@@ -88,8 +82,12 @@ Serial.println("Braking...");
   motor4.run(RELEASE);
   delay(100);
  
-Serial.println("Running in circles...");
-  
+if(obstacleDetected){
+  Serial.println("Stop Stop Stop");
+  obstacleDetected=false;
+  delay(15000);
+}
+  Serial.println("Running in circles..."); 
   motor1.run(BACKWARD);
   motor2.run(FORWARD);
   motor3.run(FORWARD);
@@ -99,7 +97,6 @@ Serial.println("Running in circles...");
     motor2.setSpeed(i);
     motor3.setSpeed(i);
     motor4.setSpeed(i);
-  
     delay(10);
   }
  
@@ -111,7 +108,7 @@ Serial.println("Running in circles...");
     delay(10);
   }
 
- Serial.println("Braking...");
+  Serial.println("Braking...");
   motor1.run(BRAKE);
   motor2.run(BRAKE);
   motor3.run(BRAKE);
@@ -125,8 +122,12 @@ Serial.println("Running in circles...");
   motor4.run(RELEASE);
   delay(100);
   
+  if(obstacleDetected){
+  Serial.println("Stop Stop Stop");
+  obstacleDetected=false;
+  delay(15000);
+  }
   Serial.println("Running backward...");
-  
   motor1.run(BACKWARD);
   motor2.run(BACKWARD);
   motor3.run(BACKWARD);
@@ -148,7 +149,7 @@ Serial.println("Running in circles...");
     delay(10);
   }
 
-Serial.println("Braking...");
+  Serial.println("Braking...");
   motor1.run(BRAKE);
   motor2.run(BRAKE);
   motor3.run(BRAKE);
@@ -162,8 +163,12 @@ Serial.println("Braking...");
   motor4.run(RELEASE);
   delay(100);
   
-  Serial.println("Running in circles...");
-  
+  if(obstacleDetected){
+  Serial.println("Stop Stop Stop");
+  obstacleDetected=false;
+  delay(15000);
+  }
+  Serial.println("Running in circles again...");  
   motor1.run(FORWARD);
   motor2.run(BACKWARD);
   motor3.run(BACKWARD);
@@ -173,7 +178,6 @@ Serial.println("Braking...");
     motor2.setSpeed(i);
     motor3.setSpeed(i);
     motor4.setSpeed(i);
-  
     delay(10);
   }
  
